@@ -22,7 +22,18 @@ class mongodb::params{
       $pkg_10gen = 'mongodb-10gen'
     }
     default: {
-      fail ("mongodb: ${::operatingsystem} is not supported.")
+      case $::osfamily {
+        'amazon': {
+          $baseurl = "http://downloads-distro.mongodb.org/repo/redhat/os/${::architecture}"
+          $source  = 'mongodb::sources::yum'
+          $package = 'mongodb-server'
+          $service = 'mongod'
+          $pkg_10gen = 'mongo-10gen-server'
+        }
+        default: {
+          fail ("mongodb: ${::operatingsystem} is not supported.")
+        }
+      }
     }
   }
 }

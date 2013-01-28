@@ -168,6 +168,47 @@ describe 'mongodb', :type => :class do
     end
   end
 
+  describe 'when deploying on amazon' do
+    let :facts do
+      {
+        :osfamily        => 'Linux',
+        :operatingsystem => 'Amazon',
+        :lsbdistcodename => 'n/a',
+      }
+    end
+
+    describe 'by default' do
+      it {
+        should_not contain_class('mongodb::sources::yum')
+        should_not contain_yumrepo('10gen')
+        should contain_package('mongodb-10gen').with({
+          :name => 'mongodb-server'
+        })
+        should contain_file('/etc/mongod.conf')
+        should contain_service('mongodb').with({
+          :name => 'mongod'
+        })
+      }
+    end
+
+    describe 'when using 10gen source' do
+      let :params do
+        { :enable_10gen => true }
+      end
+
+      it {
+        should contain_class('mongodb::sources::yum')
+        should contain_package('mongodb-10gen').with({
+          :name => 'mongo-10gen-server'
+        })
+        should contain_file('/etc/mongod.conf')
+        should contain_service('mongodb').with({
+          :name => 'mongod'
+        })
+      }
+    end
+  end
+
   describe 'when deploying on Solaris' do
     let :facts do
       { :osfamily        => 'Solaris' }
