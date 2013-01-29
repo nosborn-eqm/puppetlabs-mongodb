@@ -22,7 +22,7 @@ class mongodb::params{
       $pkg_10gen = 'mongodb-10gen'
     }
     default: {
-      case $::osfamily {
+      case $::operatingsystem {
         'Amazon': {
           $baseurl = "http://downloads-distro.mongodb.org/repo/redhat/os/${::architecture}"
           $source  = 'mongodb::sources::yum'
