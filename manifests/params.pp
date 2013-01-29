@@ -23,7 +23,7 @@ class mongodb::params{
     }
     default: {
       case $::osfamily {
-        'amazon': {
+        'Amazon': {
           $baseurl = "http://downloads-distro.mongodb.org/repo/redhat/os/${::architecture}"
           $source  = 'mongodb::sources::yum'
           $package = 'mongodb-server'
