@@ -60,6 +60,7 @@ class mongodb (
   $slave           = undef,
   $only            = undef,
   $master          = undef,
+  $replset         = undef,
   $source          = undef
 ) inherits mongodb::params {
 
